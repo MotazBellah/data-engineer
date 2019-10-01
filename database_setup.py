@@ -77,6 +77,22 @@ def insert_value(postgres_insert_query, record_to_insert):
             connection.close()
             print("PostgreSQL connection is closed")
 
+def get_data(*qureies):
+    ''' This function used to connect to the database'''
+    try:
+        pg = psycopg2.connect(dbname="exchange_rates")
+    except psycopg2.Error as e:
+        print ("Unable to connect!")
+        print (e.pgerror)
+        print (e.diag.message_detail)
+        sys.exit(1)
+    else:
+        c = pg.cursor()
+        for qurey in qureies:
+            c.execute(qurey)
+        d = c.fetchall()
+        pg.close()
+    return d
 
 def create_exchange_table():
     '''Create a table '''
