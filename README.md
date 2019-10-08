@@ -19,4 +19,4 @@ https://api.exchangeratesapi.io/history?start_at=2019-01-01&end_at=2019-10-01&ba
 
 - First run `database_setup.py` to create the DB
 - run `exchange_data.py` to load the data into DB
-- run `data_analysis.py` to run the sql qurey
+- run `data_analysis.py` to run the postgres qurey
