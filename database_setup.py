@@ -6,6 +6,7 @@ from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 def create_db():
+    '''Connect to postgres and create DB'''
     con = psycopg2.connect(dbname='postgres')
     con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
@@ -43,15 +44,15 @@ def connect_database(query):
     try:
         con = psycopg2.connect(dbname="exchange_rates")
         cur = con.cursor()
-        print(query)
+    except psycopg2.Error as e:
+        print ("Unable to connect!")
+        print (e.pgerror)
+        print (e.diag.message_detail)
+        sys.exit(1)
+    else:
         cur.execute(query)
         con.commit()
         print("The query has been excuted")
-    except psycopg2.Error as e:
-        print("Unable to connect!")
-        # print the error message
-        print(e.pgerror)
-    else:
         con.close()
 
 
@@ -77,8 +78,9 @@ def insert_value(postgres_insert_query, record_to_insert):
             connection.close()
             print("PostgreSQL connection is closed")
 
+
 def get_data(*qureies):
-    ''' This function used to connect to the database'''
+    ''' This function used to connect to the database and fetch data'''
     try:
         pg = psycopg2.connect(dbname="exchange_rates")
     except psycopg2.Error as e:
@@ -96,8 +98,8 @@ def get_data(*qureies):
 
 def create_exchange_table():
     '''Create a table '''
-    # create_db()
-    # unpack the header into the table values
+    create_db()
+    # create table
     createTable = '''CREATE TABLE RATE(
                   id serial primary key,
                   date text,

@@ -5,4 +5,5 @@ def run():
                     and source = 'USD' union  select date, target from rate
                     where date = '2019-06-07' and source = 'EUR' ;''')
 
-print(run())
+if __name__ == '__main__':
+    print(run())
