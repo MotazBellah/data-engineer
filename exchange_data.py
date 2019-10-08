@@ -20,7 +20,7 @@ def getExchangeData():
 def parse_dict(*dict):
     '''parse the dict and get the date, base,
     target and value and inser them to DB '''
-    
+    # use generator to improve the time and space
     data = ((i[0], some_dict['base'], j, i[1][j]) for some_dict in dict for i in some_dict['rates'].items() for j in i[1].keys())
     for i in data:
         insert_value(""" INSERT INTO RATE (date, source, target, value) VALUES (%s,%s,%s,%s)""",i)
